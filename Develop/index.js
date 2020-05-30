@@ -1,7 +1,32 @@
 const fs = require("fs");
 const promptUser = require("./utils/promptuser");
-const buildTemplate = require("./utils/generateMarkdown");
+const api = require("./utils/apis.js");
+const util = require("util");  
 
+const fileAsync = util.promisify(fs.writeFile);
+
+function makeReadMe(answer, data) {
+return `
+# ${answer.username}
+
+[![gitHub license](https://img.shields.io/badge/license-${answer.license}-brightgreen.svg)](https://github.com/webdevelopmentdiva)
+`
+}
+
+
+async function start(){
+    try {
+        const answer = await promptUser 
+        const {data} = await api
+        const readMe = makeReadMe(answer, data);
+        await fileAsync("ReadMe.md", readMe)
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+start();
+/*
 function writeToFile(fileName, data) {
   fs.writeFile(fileName, data, function (err) {
     if (err) {
@@ -24,3 +49,4 @@ async function gitHub(username) {
 }
 
 gitHub();
+*/

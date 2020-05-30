@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 
-module.exports = function () {
-  inquirer.prompt([
+function promptUser() {
+  return inquirer.prompt([
     {
       name: "username",
       type: "input",
@@ -54,3 +54,4 @@ module.exports = function () {
     },
   ]);
 };
+module.exports = promptUser();
