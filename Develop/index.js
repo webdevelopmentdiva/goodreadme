@@ -1,29 +1,76 @@
 const fs = require("fs");
 const promptUser = require("./utils/promptuser");
 const api = require("./utils/apis.js");
-const util = require("util");  
+const util = require("util");
 
 const fileAsync = util.promisify(fs.writeFile);
 
 function makeReadMe(answer, data) {
-return `
-# ${answer.username}
+  console.log(answer);
+  return `
+    #${answer.username}
+    [![Github license](https://img.shields.io/badge/license-${answer.license}-brightgreen.svg)](https://github.com/${answer.username})
 
-[![gitHub license](https://img.shields.io/badge/license-${answer.license}-brightgreen.svg)](https://github.com/webdevelopmentdiva)
-`
+    ##Description
+
+    ${answer.description}
+
+    ##Table of Contents
+
+    *[Installation](#Installation)
+
+    *[Usage](#Usage)
+
+    *[License](#License)
+
+    *[Contributing](#Contributing)
+
+    *[Testing](#Testing)
+
+    *[Questions](#Questions)
+
+    ##Installation
+
+    To install necessary dependencies, run the following command:
+
+      ${answer.installation}
+
+    ##Usage
+
+      ${answer.usage}
+
+    ##License
+
+    This project is licensed under the ${answer.license} license.
+
+    ##Contributing
+
+      ${answer.contributions}
+
+    ##Testing
+
+    To test the application, run the following command:
+
+      ${answer.testing}
+
+    ##Questions
+
+      If you have questions about the application please contact the developer at [${answer.username}](https://github.com/${answer.username}) directly.
+  `
 }
 
 
-async function start(){
-    try {
-        const answer = await promptUser 
-        const {data} = await api
-        const readMe = makeReadMe(answer, data);
-        await fileAsync("ReadMe.md", readMe)
-    }
-    catch(error){
-        console.log(error)
-    }
+async function start() {
+  try {
+    const answer = await promptUser
+    const {
+      data
+    } = await api
+    const readMe = makeReadMe(answer, data);
+    await fileAsync("ReadMe.md", readMe)
+  } catch (error) {
+    console.log(error)
+  }
 }
 start();
 /*
